@@ -5,6 +5,7 @@ class HealthcareAnalyticsApp {
         this.charts = {};
         this.chartInstances = {};
         this.renderTimeout = null;
+        this.currentSection = 'dashboard';
         this.criticalThresholds = {
             heart_rate_high: 100,
             heart_rate_low: 60,
@@ -23,6 +24,7 @@ class HealthcareAnalyticsApp {
 
     init() {
         this.setupEventListeners();
+        this.setupNavigation();
         // DO NOT load sample data by default
         this.showEmptyState();
     }
@@ -43,10 +45,40 @@ class HealthcareAnalyticsApp {
         
         // Search with debouncing
         document.getElementById('tableSearch').addEventListener('input', (e) => this.debouncedSearch(e));
-        
-        // Nav links
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', (e) => this.handleNavigation(e));
+    }
+
+    setupNavigation() {
+        const navLinks = document.querySelectorAll('.nav-link');
+        const contentSections = document.querySelectorAll('.content-section');
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                // Remove active class from all links and sections
+                navLinks.forEach(l => l.classList.remove('active'));
+                contentSections.forEach(s => s.classList.remove('active'));
+
+                // Add active class to clicked link and corresponding section
+                link.classList.add('active');
+                const sectionId = link.getAttribute('href');
+                const section = document.querySelector(sectionId);
+
+                if (section) {
+                    section.classList.add('active');
+                    this.currentSection = link.getAttribute('data-section');
+
+                    // Update reports when reports section is accessed
+                    if (this.currentSection === 'reports') {
+                        this.updateReportSection();
+                    }
+
+                    // Scroll to section smoothly
+                    setTimeout(() => {
+                        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 100);
+                }
+            });
         });
     }
 
@@ -67,13 +99,15 @@ class HealthcareAnalyticsApp {
         document.getElementById('tableBody').innerHTML = '';
         document.getElementById('alertsContainer').innerHTML = '';
         
-        // Show empty state message
+        // Show empty state message in table
         const emptyMessage = `
-            <div style="text-align: center; padding: 3rem; color: #7f8c8d;">
-                <i class="fas fa-inbox" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
-                <h3 style="margin-bottom: 1rem;">No Data Loaded</h3>
-                <p>Please upload a CSV file or load sample data to get started</p>
-            </div>
+            <tr>
+                <td colspan="6" style="text-align: center; padding: 3rem; color: #7f8c8d;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"><i class="fas fa-inbox"></i></div>
+                    <h3 style="margin-bottom: 1rem;">No Data Loaded</h3>
+                    <p>Please upload a CSV file or load sample data to get started</p>
+                </td>
+            </tr>
         `;
         document.getElementById('tableBody').innerHTML = emptyMessage;
         
@@ -704,6 +738,21 @@ class HealthcareAnalyticsApp {
         setTimeout(() => {
             toast.classList.remove('show');
         }, 3000);
+    }
+
+    updateReportSection() {
+        if (this.filteredData.length === 0) return;
+
+        const stats = this.calculateStatistics();
+        const uniquePatients = new Set(this.filteredData.map(r => r.patient_id)).size;
+
+        document.getElementById('reportTotalRecords').textContent = this.filteredData.length;
+        document.getElementById('reportUniquePatients').textContent = uniquePatients;
+        document.getElementById('reportCriticalEvents').textContent = this.filteredData.filter(r => this.isCritical(r)).length;
+        document.getElementById('reportAvgHR').textContent = stats.avgHeartRate.toFixed(1) + ' bpm';
+        document.getElementById('reportAvgTemp').textContent = stats.avgTemp.toFixed(1) + ' °C';
+        document.getElementById('reportAvgO2').textContent = stats.avgO2.toFixed(1) + ' %';
+        document.getElementById('reportLastUpdate').textContent = new Date().toLocaleTimeString();
     }
 }
 
