@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthcare Analytics Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-logo">
+                <i class="fas fa-heartbeat"></i>
+                <span>HealthCare Analytics Pro</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#dashboard" class="nav-link active">Dashboard</a></li>
+                <li><a href="#patients" class="nav-link">Patients</a></li>
+                <li><a href="#analytics" class="nav-link">Analytics</a></li>
+                <li><a href="#reports" class="nav-link">Reports</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <h3>Data Management</h3>
+                <div class="file-upload">
+                    <input type="file" id="csvFile" accept=".csv" />
+                    <label for="csvFile" class="upload-btn">
+                        <i class="fas fa-upload"></i> Upload CSV
+                    </label>
+                </div>
+                <button class="btn btn-primary btn-block" id="loadSampleBtn">
+                    <i class="fas fa-database"></i> Load Sample Data
+                </button>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Filters</h3>
+                <div class="filter-group">
+                    <label>Patient ID</label>
+                    <input type="text" id="filterPatient" placeholder="Search patient..." class="filter-input">
+                </div>
+                <div class="filter-group">
+                    <label>Vital Sign</label>
+                    <select id="filterMetric" class="filter-input">
+                        <option value="">All Metrics</option>
+                        <option value="heart_rate">Heart Rate</option>
+                        <option value="temperature">Temperature</option>
+                        <option value="oxygen_saturation">Oxygen Saturation</option>
+                        <option value="blood_pressure">Blood Pressure</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Status</label>
+                    <select id="filterStatus" class="filter-input">
+                        <option value="">All Status</option>
+                        <option value="critical">Critical</option>
+                        <option value="normal">Normal</option>
+                    </select>
+                </div>
+                <button class="btn btn-secondary btn-block" id="resetFiltersBtn">
+                    <i class="fas fa-redo"></i> Reset Filters
+                </button>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Quick Stats</h3>
+                <div class="quick-stat">
+                    <span class="stat-label">Total Patients</span>
+                    <span class="stat-value" id="totalPatients">0</span>
+                </div>
+                <div class="quick-stat">
+                    <span class="stat-label">Total Records</span>
+                    <span class="stat-value" id="totalRecords">0</span>
+                </div>
+                <div class="quick-stat critical">
+                    <span class="stat-label">Critical Events</span>
+                    <span class="stat-value" id="criticalEvents">0</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="page-header">
+                <h1>Healthcare Data Analytics Dashboard</h1>
+                <p>Real-time monitoring and analysis of patient vital signs</p>
+            </header>
+
+            <!-- Status Cards -->
+            <section class="cards-grid" id="statusCards">
+                <!-- Populated by JavaScript -->
+            </section>
+
+            <!-- Charts Section -->
+            <section class="charts-section">
+                <div class="chart-container">
+                    <h2>Heart Rate Trends</h2>
+                    <canvas id="heartRateChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h2>Temperature Distribution</h2>
+                    <canvas id="temperatureChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h2>Oxygen Saturation</h2>
+                    <canvas id="oxygenChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h2>Patient Statistics</h2>
+                    <canvas id="patientStatsChart"></canvas>
+                </div>
+            </section>
+
+            <!-- Data Table Section -->
+            <section class="table-section">
+                <h2>Patient Records</h2>
+                <div class="table-controls">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="tableSearch" placeholder="Search records...">
+                    </div>
+                    <button class="btn btn-success" id="exportBtn">
+                        <i class="fas fa-download"></i> Export CSV
+                    </button>
+                </div>
+                <div class="table-wrapper">
+                    <table class="data-table" id="dataTable">
+                        <thead>
+                            <tr>
+                                <th>Patient ID</th>
+                                <th>Timestamp</th>
+                                <th>Heart Rate</th>
+                                <th>Temperature</th>
+                                <th>O2 Saturation</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                            <!-- Populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Critical Alerts Section -->
+            <section class="alerts-section">
+                <h2>Critical Alerts</h2>
+                <div class="alerts-container" id="alertsContainer">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Loading Indicator -->
+    <div class="loading-spinner" id="loadingSpinner">
+        <div class="spinner"></div>
+        <p>Processing data...</p>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
