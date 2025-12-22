@@ -1,6 +1,7 @@
 [build]
-  command = "echo 'Building...'"
+  command = "# Static site - no build needed"
   publish = "web"
+  ignore = "requirements.txt"
 
 [dev]
   command = "python -m http.server 8000"
