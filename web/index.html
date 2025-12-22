@@ -3,7 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Real-time healthcare analytics dashboard for monitoring patient vital signs">
+    <meta name="keywords" content="healthcare, analytics, dashboard, vital signs, monitoring">
+    <meta name="theme-color" content="#2196F3">
+    <meta name="author" content="Healthcare Analytics Team">
+    <meta property="og:title" content="Healthcare Analytics Dashboard">
+    <meta property="og:description" content="Real-time monitoring and analysis of patient vital signs">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://healthcare-dashboard-qpds.netlify.app">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Healthcare Analytics Dashboard">
+    <meta name="twitter:description" content="Real-time monitoring and analysis of patient vital signs">
+    
     <title>Healthcare Analytics Dashboard</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text x='50' y='50' font-size='80' text-anchor='middle' dominant-baseline='middle'>❤️</text></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect fill='%232196F3' width='180' height='180' rx='40'/><text x='90' y='90' font-size='120' fill='white' text-anchor='middle' dominant-baseline='middle'>❤️</text></svg>">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.css">
     <link rel="stylesheet" href="styles.css">
@@ -244,6 +260,12 @@
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <script>
+        // Register Service Worker for PWA
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').catch(err => console.log('SW registration failed'));
+        }
+    </script>
     <script src="app.js"></script>
 </body>
 </html>

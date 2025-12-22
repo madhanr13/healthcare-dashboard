@@ -1,0 +1,36 @@
+{
+  "name": "Healthcare Analytics Dashboard",
+  "short_name": "Healthcare Analytics",
+  "description": "Real-time monitoring and analysis of patient vital signs",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2196F3",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%232196F3' width='192' height='192'/><text x='50%' y='50%' font-size='100' fill='white' text-anchor='middle' dominant-baseline='middle' font-family='Arial'>❤️</text></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 540 720'><rect fill='%23f5f7fa' width='540' height='720'/><text x='270' y='360' font-size='48' fill='%232196F3' text-anchor='middle' dominant-baseline='middle'>Healthcare Dashboard</text></svg>",
+      "sizes": "540x720",
+      "form_factor": "narrow"
+    }
+  ],
+  "categories": ["healthcare", "medical", "productivity"],
+  "shortcuts": [
+    {
+      "name": "Load Sample Data",
+      "short_name": "Sample Data",
+      "description": "Load sample healthcare data",
+      "url": "/?action=load-sample",
+      "icons": []
+    }
+  ]
+}
