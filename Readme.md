@@ -118,7 +118,7 @@ We provide 3 sample CSV files to test with:
 3. **healthcare_data.csv** - 1 patient, 60 detailed records
 
 **How to use:**
-1. Visit: https://healthcare-analysis-qpds.netlify.app
+1. Visit: [healthcare-analysis-qpds.netlify.app](https://healthcare-dashboard-qpds.netlify.app/)
 2. Click "Load Sample Data" OR
 3. Click "Upload CSV" and select any sample file
 
